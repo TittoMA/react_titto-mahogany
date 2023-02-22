@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account</title>
+  </head>
+  <body>
+    <h1>Create Account</h1>
+    <h2>Detail Form</h2>
+
+    <form>
+      <div>
+        <label for="first-name">First Name:</label> <br />
+        <input type="text" id="first-name" required />
+      </div>
+      <br />
+      <div>
+        <label for="last-name">Last Name:</label> <br />
+        <input type="text" id="last-name" required />
+      </div>
+      <br />
+      <div>
+        <label for="username">Usermame:</label> <br />
+        <input type="text" id="username" required />
+      </div>
+      <br />
+      <div>
+        <label for="email">Email:</label> <br />
+        <input type="email" id="email" required />
+      </div>
+      <br />
+      <div>
+        <label>Gender:</label>
+        <div>
+          <input
+            type="radio"
+            id="gender-male"
+            name="gender"
+            value="Male"
+            required
+          />
+          <label for="gender-male">Male</label>
+        </div>
+        <div>
+          <input
+            type="radio"
+            id="gender-female"
+            name="gender"
+            value="Female"
+            required
+          />
+          <label for="gender-female">Female</label>
+        </div>
+        <div>
+          <input
+            type="radio"
+            id="gender-other"
+            name="gender"
+            value="Other"
+            required
+          />
+          <label for="gender-other">Other</label>
+        </div>
+      </div>
+      <br />
+      <div>
+        <label for="address">Address:</label> <br />
+        <input type="text" id="address" required />
+      </div>
+      <br />
+      <div>
+        <label for="address2">Address 2:</label> <br />
+        <input type="text" id="address2" required />
+      </div>
+      <br />
+      <div>
+        <label for="nationality">Nationality:</label> <br />
+        <select name="nationality" id="nationality" required>
+          <option value="Indonesia">Indonesia</option>
+          <option value="Malaysia">Malaysia</option>
+          <option value="English">English</option>
+        </select>
+      </div>
+      <br />
+      <div>
+        <label>Language Spoken:</label>
+        <div>
+          <input type="checkbox" id="lang-bahasa" value="Bahasa Indonesia" />
+          <label for="lang-bahasa">Bahasa Indonesia</label>
+        </div>
+        <div>
+          <input type="checkbox" id="lang-english" value="English" />
+          <label for="lang-english">English</label>
+        </div>
+        <div>
+          <input type="checkbox" id="lang-other" value="Other" />
+          <label for="lang-other">Other</label>
+        </div>
+      </div>
+      <br />
+      <button type="submit">Create Account</button>
+    </form>
+  </body>
+</html>
