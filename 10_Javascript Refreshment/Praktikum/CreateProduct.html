@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Product</title>
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./assets/css/createproduct.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-md bg-white shadow">
+        <div class="container-fluid px-4">
+          <h1>
+            <a
+              href="#"
+              class="navbar-brand"
+              style="color: #4e6da3; text-transform: uppercase"
+              ><b>Arsha</b></a
+            >
+          </h1>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto gap-4">
+              <li class="nav-item d-none d-md-block">
+                <a
+                  class="nav-link btn btn-primary text-white px-3 d-inline-block mt-3 mt-md-0"
+                  aria-current="page"
+                  href="#"
+                  >Home</a
+                >
+              </li>
+              <li class="nav-item d-md-none">
+                <a class="nav-link text-primary" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-primary" href="#">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-primary" href="#">Pricing</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-primary" href="#">FAQs</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-primary" href="#">About</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div style="margin-top: 10px" class="container">
+        <div class="row justify-content-center p-5">
+          <div
+            class="col-12 col-md-9 d-flex flex-column align-items-center py-3"
+          >
+            <div class="mb-3">
+              <img src="./assets/img/bootstrap-logo.png" alt="bootstrap-logo" />
+            </div>
+
+            <h2>Create Product</h2>
+            <p class="text-center">
+              Below is an example form built entirely with Bootstrap’s form
+              controls. Each required form group has a validation state that can
+              be triggered by attempting to submit the form without completing
+              it.
+            </p>
+
+            <div class="row w-100 justify-content-center">
+              <div class="col-12 col-md-8">
+                <form id="formProduct" class="mt-5">
+                  <h3>Detail Product</h3>
+
+                  <div class="mb-4">
+                    <label for="productName" class="form-label"
+                      >Product Name</label
+                    >
+                    <input
+                      style="width: 282px"
+                      type="text"
+                      class="form-control"
+                      id="productName"
+                    />
+                    <div id="productNameFeedback"></div>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="productCategory" class="form-label"
+                      >Product Category</label
+                    >
+                    <select
+                      style="width: 224px"
+                      id="productCategory"
+                      class="form-select"
+                      aria-label="Product Category"
+                    >
+                      <option disabled>Choose...</option>
+                      <option selected value="Class A">Class A</option>
+                      <option value="Class B">Class B</option>
+                      <option value="Class C">Class C</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="formFile" class="form-label"
+                      >Image of Product</label
+                    >
+                    <input
+                      class="form-control input-image"
+                      type="file"
+                      id="formFile"
+                    />
+                    <div class="invalid-feedback">
+                      Please add image for product.
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <label class="mb-1">Product Freshness</label>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="productFreshness"
+                        id="productFreshness1"
+                      />
+                      <label class="form-check-label" for="productFreshness1">
+                        Brand New
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="productFreshness"
+                        id="productFreshness2"
+                      />
+                      <label class="form-check-label" for="productFreshness2">
+                        Secondhand
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="productFreshness"
+                        id="productFreshness3"
+                      />
+                      <label class="form-check-label" for="productFreshness3">
+                        Refurbished
+                      </label>
+                      <div class="invalid-feedback">
+                        Please fill out this field.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="additionalDescription" class="form-label"
+                      >Additional Description</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="additionalDescription"
+                      rows="3"
+                    ></textarea>
+                  </div>
+
+                  <div style="margin-bottom: 138px">
+                    <label for="productPrice" class="form-label"
+                      >Product Price</label
+                    >
+                    <div class="input-group">
+                      <span class="input-group-text">$</span>
+                      <input
+                        id="productPrice"
+                        type="number"
+                        class="form-control"
+                        placeholder="1"
+                        aria-label="Amount (to the nearest dollar)"
+                      />
+                      <div class="invalid-feedback">
+                        Please add price for product.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="padding: 0 26px">
+                    <button
+                      type="submit"
+                      class="btn btn-primary w-100 disabled"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Script -->
+    <script src="./assets/js/scripts.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
