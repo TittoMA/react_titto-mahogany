@@ -84,6 +84,13 @@
 
             <div class="row w-100 justify-content-center">
               <div class="col-12 col-md-8">
+                <div
+                  id="productData"
+                  class="alert alert-success d-none"
+                  role="alert"
+                >
+                  <h4 class="alert-heading">Product Data</h4>
+                </div>
                 <form id="formProduct" class="mt-5">
                   <h3>Detail Product</h3>
 
@@ -97,7 +104,9 @@
                       class="form-control"
                       id="productName"
                     />
-                    <div id="productNameFeedback"></div>
+                    <div id="productNameFeedback" class="text-danger d-none">
+                      Please fill out this field.
+                    </div>
                   </div>
 
                   <div class="mb-4">
@@ -126,7 +135,7 @@
                       type="file"
                       id="formFile"
                     />
-                    <div class="invalid-feedback">
+                    <div id="productImageFeedback" class="text-danger d-none">
                       Please add image for product.
                     </div>
                   </div>
@@ -139,6 +148,7 @@
                         type="radio"
                         name="productFreshness"
                         id="productFreshness1"
+                        value="Brand New"
                       />
                       <label class="form-check-label" for="productFreshness1">
                         Brand New
@@ -150,6 +160,7 @@
                         type="radio"
                         name="productFreshness"
                         id="productFreshness2"
+                        value="Secondhand"
                       />
                       <label class="form-check-label" for="productFreshness2">
                         Secondhand
@@ -161,11 +172,15 @@
                         type="radio"
                         name="productFreshness"
                         id="productFreshness3"
+                        value="Refurbished"
                       />
                       <label class="form-check-label" for="productFreshness3">
                         Refurbished
                       </label>
-                      <div class="invalid-feedback">
+                      <div
+                        id="productFreshnessFeedback"
+                        class="text-danger d-none"
+                      >
                         Please fill out this field.
                       </div>
                     </div>
@@ -192,17 +207,19 @@
                         id="productPrice"
                         type="number"
                         class="form-control"
-                        placeholder="1"
+                        placeholder="Price"
                         aria-label="Amount (to the nearest dollar)"
+                        min="0"
                       />
-                      <div class="invalid-feedback">
-                        Please add price for product.
-                      </div>
+                    </div>
+                    <div id="productPriceFeedback" class="text-danger d-none">
+                      Please add price for product.
                     </div>
                   </div>
 
                   <div style="padding: 0 26px">
                     <button
+                      id="submitButton"
                       type="submit"
                       class="btn btn-primary w-100 disabled"
                     >
