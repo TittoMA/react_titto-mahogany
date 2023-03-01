@@ -3,6 +3,9 @@ const inputProductName = document.getElementById("productName");
 const inputProductCategory = document.getElementById("productCategory");
 const inputProductImage = document.getElementById("formFile");
 const inputProductPrice = document.getElementById("productPrice");
+const inputProductDescription = document.getElementById(
+  "additionalDescription"
+);
 
 const productNameFeedback = document.getElementById("productNameFeedback");
 const submitButton = document.getElementById("submitButton");
@@ -48,6 +51,8 @@ inputProductName.addEventListener("input", (e) => {
   }
 });
 
+// Menonaktifkan button submit saat inputan
+// belum valid secara keseluruhan.
 formProduct.addEventListener("input", () => {
   if (fieldValidation()) {
     submitButton.classList.remove("disabled");
@@ -98,16 +103,40 @@ formProduct.addEventListener("submit", (e) => {
       `;
       productData.appendChild(div);
       productData.classList.remove("d-none");
+      alert(
+        "Product Data: \n" +
+          "Name: " +
+          inputProductName.value +
+          "\n" +
+          "Category: " +
+          inputProductCategory.value +
+          "\n" +
+          "Image: " +
+          inputProductImage.files[0].name +
+          "\n" +
+          "Freshness: " +
+          formProduct.querySelector('input[name="productFreshness"]:checked')
+            .value +
+          "\n" +
+          "Additional Description: " +
+          document.getElementById("additionalDescription").value +
+          "\n" +
+          "Price: $" +
+          inputProductPrice.value
+      );
     }
   }
 });
 
+// function untuk mengubah warna border pada input
+// dan menampilkan pesan error jika inputan tidak valid.
 function fieldValidation() {
   let isNameValid,
     isCategoryValid,
     isImageValid,
     isPriceValid,
-    isFreshnessValid = false;
+    isFreshnessValid,
+    isDescriptionValid = false;
 
   if (!isProductNameValid) {
     inputProductName.style.border = "1px solid red";
@@ -143,6 +172,15 @@ function fieldValidation() {
     isPriceValid = true;
   }
 
+  if (inputProductDescription.value == "") {
+    inputProductDescription.style.border = "1px solid red";
+    document.getElementById("descriptionFeedback").classList.remove("d-none");
+  } else {
+    inputProductDescription.style.border = "1px solid #dee2e6";
+    document.getElementById("descriptionFeedback").classList.add("d-none");
+    isDescriptionValid = true;
+  }
+
   if (
     formProduct.querySelector('input[name="productFreshness"]:checked') == null
   ) {
@@ -159,10 +197,9 @@ function fieldValidation() {
     isCategoryValid &&
     isImageValid &&
     isFreshnessValid &&
-    isPriceValid
+    isPriceValid &&
+    isDescriptionValid
   );
 }
 
 fieldValidation();
-
-//
