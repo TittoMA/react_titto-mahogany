@@ -40,6 +40,7 @@ inputProductName.addEventListener("input", (e) => {
     } else {
       if (productName == "") {
         isProductNameValid = false;
+        productNameFeedback.innerText = "Please enter a valid Prouct name.";
       } else {
         isProductNameValid = true;
       }
