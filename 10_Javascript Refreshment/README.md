@@ -1,4 +1,4 @@
-# [10] Javascript Refreshment
+# (10) Javascript Refreshment
 
 ## Definisi Javascript
 
