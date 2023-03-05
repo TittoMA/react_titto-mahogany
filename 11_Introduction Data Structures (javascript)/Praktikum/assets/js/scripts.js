@@ -76,54 +76,31 @@ formProduct.addEventListener("submit", (e) => {
       alert("Name must not contain symbols.");
     } else {
       window.scrollTo(0, 0);
+      const productFreshness = formProduct.querySelector(
+        'input[name="productFreshness"]:checked'
+      ).value;
       const productData = document.getElementById("productData");
       const div = document.createElement("div");
-      div.innerHTML =
-        ` 
-        <p>Name: ` +
-        inputProductName.value +
-        `</p>
-        <p>Category: ` +
-        inputProductCategory.value +
-        `</p>
-        <p>Image: ` +
-        inputProductImage.files[0].name +
-        `</p>
-        <p>Freshness: ` +
-        formProduct.querySelector('input[name="productFreshness"]:checked')
-          .value +
-        `</p>
-        <p>Additional Description: ` +
-        document.getElementById("additionalDescription").value +
-        `</p>
-        <p class="mb-0">Price: $` +
-        inputProductPrice.value +
-        `</p>
+      div.innerHTML = ` 
+        <p>Name: ${inputProductName.value}</p>
+        <p>Category: ${inputProductCategory.value}</p>
+        <p>Image: ${inputProductImage.files[0].name}</p>
+        <p>Freshness: ${productFreshness}</p>
+        <p>Additional Description: ${inputProductDescription.value}</p>
+        <p class="mb-0">Price: $${inputProductPrice.value}</p>
         <hr />
       `;
       productData.appendChild(div);
       productData.classList.remove("d-none");
-      alert(
-        "Product Data : \n" +
-          "Name: " +
-          inputProductName.value +
-          "\n" +
-          "Category: " +
-          inputProductCategory.value +
-          "\n" +
-          "Image: " +
-          inputProductImage.files[0].name +
-          "\n" +
-          "Freshness: " +
-          formProduct.querySelector('input[name="productFreshness"]:checked')
-            .value +
-          "\n" +
-          "Additional Description: " +
-          document.getElementById("additionalDescription").value +
-          "\n" +
-          "Price: $" +
-          inputProductPrice.value
-      );
+      alert(`
+        Product data: \n
+        Name: ${inputProductName.value}
+        Category:  ${inputProductCategory.value}
+        Image: ${inputProductImage.files[0].name}
+        Freshness: ${productFreshness}
+        Additional Description: ${inputProductDescription.value}
+        Price: $${inputProductPrice.value}
+      `);
     }
   }
 });
