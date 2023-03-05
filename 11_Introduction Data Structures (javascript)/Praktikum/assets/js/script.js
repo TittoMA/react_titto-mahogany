@@ -51,6 +51,33 @@ inputProductName.addEventListener("input", (e) => {
   }
 });
 
+function addProduct() {
+  const productName = document.getElementById("productName").value;
+  const productCategory = document.getElementById("productCategory").value;
+  const productImage = document.getElementById("formFile").files[0].name;
+  const productFreshness = formProduct.querySelector(
+    'input[name="productFreshness"]:checked'
+  ).value;
+  const productDescription = document.getElementById(
+    "additionalDescription"
+  ).value;
+  const productPrice = document.getElementById("productPrice").value;
+
+  const productTable = document.getElementById("product-table");
+  const tableRow = document.createElement("tr");
+  const number = productTable.childElementCount;
+  tableRow.innerHTML = ` 
+    <td>${number}</td>
+    <td>${productName}</td>
+    <td>${productCategory}</td>
+    <td>${productImage}</td>
+    <td>${productFreshness}</td>
+    <td>${productDescription}</td>
+    <td>${productPrice}</td>
+  `;
+  productTable.appendChild(tableRow);
+}
+
 // Menonaktifkan button submit saat inputan
 // belum valid secara keseluruhan.
 formProduct.addEventListener("input", () => {
@@ -75,24 +102,11 @@ formProduct.addEventListener("submit", (e) => {
       productNameFeedback.style.color = "red";
       alert("Name must not contain symbols.");
     } else {
-      window.scrollTo(0, 0);
       const productFreshness = formProduct.querySelector(
         'input[name="productFreshness"]:checked'
       ).value;
-      const productData = document.getElementById("productData");
-      const div = document.createElement("div");
-      div.innerHTML = ` 
-        <p>Name: ${inputProductName.value}</p>
-        <p>Category: ${inputProductCategory.value}</p>
-        <p>Image: ${inputProductImage.files[0].name}</p>
-        <p>Freshness: ${productFreshness}</p>
-        <p>Additional Description: ${inputProductDescription.value}</p>
-        <p class="mb-0">Price: $${inputProductPrice.value}</p>
-        <hr />
-      `;
-      productData.appendChild(div);
-      productData.classList.remove("d-none");
       alert(`
+        INPUT SUCCESS
         Product data: \n
         Name: ${inputProductName.value}
         Category:  ${inputProductCategory.value}
@@ -101,6 +115,7 @@ formProduct.addEventListener("submit", (e) => {
         Additional Description: ${inputProductDescription.value}
         Price: $${inputProductPrice.value}
       `);
+      addProduct();
     }
   }
 });
