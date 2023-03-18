@@ -76,16 +76,17 @@ function App() {
   };
 
   const validation = () => {
+    const validObj = { ...formValidation };
     Object.entries(formProduct).forEach((entry) => {
       const [key, value] = entry;
-      setFormValidation((prev) => ({
-        ...prev,
-        [key]: {
-          isValid: value === '' ? false : true,
-          message: value === '' ? 'This field cannot be empty' : '',
-        },
-      }));
+      validObj[key] = {
+        isValid: value === '' ? false : true,
+        message: value === '' ? 'This field cannot be empty' : '',
+      };
     });
+    setFormValidation({ ...validObj });
+
+    return validObj;
   };
 
   const onChangeInput = (e) => {
@@ -102,9 +103,9 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    validation();
+    const validObj = validation();
 
-    const isValid = Object.values(formValidation).every(
+    const isValid = Object.values(validObj).every(
       (value) => value.isValid === true
     );
     if (isValid) alert('SUCCESS INPUT DATA');
