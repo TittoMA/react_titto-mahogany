@@ -1,13 +1,14 @@
 import React from 'react';
 
-const InputSelect = ({ label, id, name, options, onChange, selectValue, isValid, validMsg }) => {
-  const inputBorder = isValid ? '#dee2e6' : 'red';
+const InputSelect = ({ label, id, name, options, onChange, selectValue, isTouched, errorMsg, ...props }) => {
+  const inputBorder = errorMsg && isTouched ? 'red' : '#dee2e6';
   return (
     <div id={`${id}-field`} className='mb-4'>
       <label htmlFor={id} className='form-label'>
         {label}
       </label>
       <select
+        {...props}
         style={{ width: 224, borderColor: inputBorder }}
         id={id}
         name={name}
@@ -22,9 +23,7 @@ const InputSelect = ({ label, id, name, options, onChange, selectValue, isValid,
           </option>
         ))}
       </select>
-      <div id={`${id}-feedback`} className={`text-danger ${isValid && 'd-none'}`}>
-        {validMsg}
-      </div>
+      {errorMsg && isTouched && <p className={`text-danger`}>{errorMsg}</p>}
     </div>
   );
 };

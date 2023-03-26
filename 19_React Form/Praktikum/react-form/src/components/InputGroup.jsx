@@ -1,7 +1,7 @@
 import React from 'react';
 
-const InputGroup = ({ label, id, name, placeholder, onChange, value, isValid, validMsg }) => {
-  const inputBorder = isValid ? '#dee2e6' : 'red';
+const InputGroup = ({ label, id, name, placeholder, onChange, value, isTouched, errorMsg, ...props }) => {
+  const inputBorder = errorMsg && isTouched ? 'red' : '#dee2e6';
   return (
     <div id={`${id}-field`}>
       <label htmlFor={id} className='form-label'>
@@ -10,6 +10,7 @@ const InputGroup = ({ label, id, name, placeholder, onChange, value, isValid, va
       <div className='input-group'>
         <span className='input-group-text'>$</span>
         <input
+          {...props}
           style={{ borderColor: inputBorder }}
           type='number'
           id={id}
@@ -21,9 +22,7 @@ const InputGroup = ({ label, id, name, placeholder, onChange, value, isValid, va
           value={value}
         />
       </div>
-      <div id={`${id}-feedback`} className={`text-danger ${isValid && 'd-none'}`}>
-        {validMsg}
-      </div>
+      {errorMsg && isTouched && <p className={`text-danger`}>{errorMsg}</p>}
     </div>
   );
 };

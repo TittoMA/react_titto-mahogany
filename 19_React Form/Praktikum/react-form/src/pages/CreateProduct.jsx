@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import Header from '../components/Header';
+import { useFormik, Formik } from 'formik';
+import * as Yup from 'yup';
 import BootstrapLogo from '../assets/img/bootstrap-logo.png';
 import Input from '../components/Input';
 import InputSelect from '../components/InputSelect';
@@ -8,93 +10,82 @@ import InputRadio from '../components/InputRadio';
 import InputArea from '../components/InputArea';
 import InputGroup from '../components/InputGroup';
 import ProductTable from '../components/ProductTable';
-import useValidation from '../hooks/useValidation';
 import article from '../article';
 
 const CreateProduct = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [language, setLanguage] = useState('en');
-  const [formProduct, setFormProduct] = useState({
-    productName: '',
-    productCategory: '',
-    productFreshness: '',
-    productDescription: '',
-    productPrice: '',
-  });
   const [dataProduct, setDataProduct] = useState([]);
-  const [isNameValid, nameValidMsg, nameValidate] = useValidation(formProduct.productName, 10);
-  const [isCategoryValid, categoryValidMsg, categoryValidate] = useValidation(formProduct.productCategory);
-  const [isDescriptionValid, descriptionValidMsg, descriptionValidate] = useValidation(
-    formProduct.productDescription
-  );
-  const [isPriceValid, priceValidMsg, priceValidate] = useValidation(formProduct.productPrice);
 
-  useEffect(() => {
-    const products = JSON.parse(localStorage.getItem('dataProduct'));
-    setDataProduct(products);
-    alert('Welcome');
-  }, []);
-
-  const generateNumber = () => {
-    console.log('RANDOM NUMBER: ', Math.floor(Math.random() * 101));
-  };
-
-  const changeLanguage = (lang) => {
-    setLanguage(lang);
-  };
-
-  const onChangeInput = (e, validate = null) => {
-    const value = e.target.value;
-    setFormProduct({ ...formProduct, [e.target.name]: value });
-    if (validate !== null) validate();
-  };
-
-  const resetForm = () => {
-    setFormProduct({
+  const formik = useFormik({
+    initialValues: {
       productName: '',
       productCategory: '',
       productFreshness: '',
       productDescription: '',
       productPrice: '',
-    });
-  };
-
-  const validateAll = (value = true) => {
-    nameValidate(value);
-    categoryValidate(value);
-    descriptionValidate(value);
-    priceValidate(value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    validateAll();
-    const validArr = [isNameValid, isCategoryValid, isDescriptionValid, isPriceValid];
-    const isValid = validArr.every((value) => value === true);
-
-    if (isValid) {
-      const dataArr = [...dataProduct];
-      const inputData = {
-        name: formProduct.productName,
-        category: formProduct.productCategory,
-        freshness: formProduct.productFreshness,
-        description: formProduct.productDescription,
-        price: formProduct.productPrice,
+      productImage: undefined,
+    },
+    validationSchema: Yup.object().shape({
+      productName: Yup.string().min(2).max(50).required('Required'),
+      productCategory: Yup.string().required('Required'),
+      productFreshness: Yup.string().required('Required'),
+      productDescription: Yup.string().min(2).required('Required'),
+      productPrice: Yup.string().required('Required'),
+      productImage: Yup.mixed()
+        .test('required', 'Please upload a product image', (value) => {
+          return value != undefined;
+        })
+        .test('type', 'Unsupported File Format', (value) => {
+          return (
+            value && (value.type === 'image/jpg' || value.type === 'image/jpeg' || value.type === 'image/png')
+          );
+        }),
+    }),
+    onSubmit: (values) => {
+      const data = {
+        name: values.productName,
+        category: values.productCategory,
+        image: values.productImage.name,
+        freshness: values.productFreshness,
+        description: values.productDescription,
+        price: values.productPrice,
       };
-      if (!isEditing) {
-        dataArr.push(inputData);
-      } else {
-        dataArr.splice(selectedIndex, 1, inputData);
-        setIsEditing(false);
-        setSelectedIndex(null);
-      }
+      handleSubmit(data);
+    },
+  });
 
-      setDataProduct(dataArr);
-      localStorage.setItem('dataProduct', JSON.stringify(dataArr));
-      validateAll(false);
-      resetForm();
+  useEffect(() => {
+    const products = JSON.parse(localStorage.getItem('dataProduct'));
+    if (products) {
+      setDataProduct(products);
     }
+  }, []);
+
+  const resetForm = () => {
+    formik.setFieldValue('productName', '');
+    formik.setFieldValue('productCategory', '');
+    formik.setFieldValue('productImage', undefined);
+    formik.setFieldValue('productFreshness', '');
+    formik.setFieldValue('productDescription', '');
+    formik.setFieldValue('productPrice', '');
+  };
+
+  const handleSubmit = (newData) => {
+    const dataArr = [...dataProduct];
+
+    if (!isEditing) {
+      dataArr.push(newData);
+    } else {
+      dataArr.splice(selectedIndex, 1, newData);
+      setIsEditing(false);
+      setSelectedIndex(null);
+    }
+
+    setDataProduct(dataArr);
+    localStorage.setItem('dataProduct', JSON.stringify(dataArr));
+    resetForm();
   };
 
   const handleDelete = (index) => {
@@ -110,15 +101,15 @@ const CreateProduct = () => {
   const handleEdit = (index) => {
     console.log('EDIT', index);
     const selectedData = { ...dataProduct[index] };
+    console.log(selectedData);
     setSelectedIndex(index);
     setIsEditing(true);
-    setFormProduct({
-      productName: selectedData.name,
-      productCategory: selectedData.category,
-      productFreshness: selectedData.freshness,
-      productDescription: selectedData.description,
-      productPrice: selectedData.price,
-    });
+    formik.setFieldValue('productName', selectedData.name);
+    formik.setFieldValue('productCategory', selectedData.category);
+    formik.setFieldValue('productImage', undefined);
+    formik.setFieldValue('productFreshness', selectedData.freshness);
+    formik.setFieldValue('productDescription', selectedData.description);
+    formik.setFieldValue('productPrice', selectedData.price);
   };
 
   return (
@@ -134,39 +125,30 @@ const CreateProduct = () => {
               <h2>{article.title[language]}</h2>
               <p className='text-center'>{article.description[language]}</p>
 
-              <div className='d-flex gap-2 w-100 justify-content-center'>
-                <button
-                  onClick={() => changeLanguage(language === 'en' ? 'id' : 'en')}
-                  className='btn btn-primary'
-                >
-                  {language === 'en' ? 'Change Language' : 'Ganti Bahasa'}
-                </button>
-                <button onClick={generateNumber} className='btn btn-success'>
-                  Generate Random Number
-                </button>
-              </div>
               <div className='row w-100 justify-content-center'>
                 <div className='col-12 col-md-8'>
-                  <form id='form-product' onSubmit={handleSubmit} className='mt-5'>
+                  <form id='form-product' onSubmit={formik.handleSubmit} className='mt-5'>
                     <h3>Detail Product</h3>
                     <Input
                       label='Product Name'
                       type='text'
                       id='product-name'
                       name='productName'
-                      onChange={(e) => onChangeInput(e, nameValidate)}
-                      value={formProduct.productName}
-                      isValid={isNameValid}
-                      validMsg={nameValidMsg}
+                      onChange={formik.handleChange}
+                      value={formik.values.productName}
+                      onBlur={formik.handleBlur}
+                      isTouched={formik.touched.productName}
+                      errorMsg={formik.errors.productName}
                     />
                     <InputSelect
                       label='Product Category'
                       id='product-category-field'
                       name='productCategory'
-                      onChange={(e) => onChangeInput(e, categoryValidate)}
-                      selectValue={formProduct.productCategory}
-                      isValid={isCategoryValid}
-                      validMsg={categoryValidMsg}
+                      onChange={formik.handleChange}
+                      selectValue={formik.values.productCategory}
+                      onBlur={formik.handleBlur}
+                      isTouched={formik.touched.productCategory}
+                      errorMsg={formik.errors.productCategory}
                       options={[
                         { value: 'Class A', label: 'Class A' },
                         { value: 'Class B', label: 'Class B' },
@@ -174,14 +156,27 @@ const CreateProduct = () => {
                       ]}
                     />
 
-                    <InputFile label='Image of Product' id='product-image' name='productImage' />
+                    <InputFile
+                      label='Image of Product'
+                      id='product-image'
+                      name='productImage'
+                      onChange={(event) => {
+                        formik.setFieldValue('productImage', event.currentTarget.files[0]);
+                      }}
+                      onBlur={formik.handleBlur}
+                      isTouched={formik.touched.productImage}
+                      errorMsg={formik.errors.productImage}
+                    />
 
                     <InputRadio
                       label='Product Freshness'
                       id='product-freshness'
                       name='productFreshness'
-                      onChange={onChangeInput}
-                      selectedValue={formProduct.productFreshness}
+                      onChange={formik.handleChange}
+                      selectedValue={formik.values.productFreshness}
+                      onBlur={formik.handleBlur}
+                      isTouched={formik.touched.productFreshness}
+                      errorMsg={formik.errors.productFreshness}
                       options={[
                         { value: 'Brand New', label: 'Brand New' },
                         { value: 'Secondhand', label: 'Secondhand' },
@@ -195,10 +190,11 @@ const CreateProduct = () => {
                       name='productDescription'
                       rows={3}
                       placeholder='Please add product description.'
-                      onChange={(e) => onChangeInput(e, descriptionValidate)}
-                      value={formProduct.productDescription}
-                      isValid={isDescriptionValid}
-                      validMsg={descriptionValidMsg}
+                      onChange={formik.handleChange}
+                      value={formik.values.productDescription}
+                      onBlur={formik.handleBlur}
+                      isTouched={formik.touched.productDescription}
+                      errorMsg={formik.errors.productDescription}
                     />
 
                     <InputGroup
@@ -206,10 +202,11 @@ const CreateProduct = () => {
                       id='product-price'
                       name='productPrice'
                       placeholder='Price'
-                      onChange={(e) => onChangeInput(e, priceValidate)}
-                      value={formProduct.productPrice}
-                      isValid={isPriceValid}
-                      validMsg={priceValidMsg}
+                      onChange={formik.handleChange}
+                      value={formik.values.productPrice}
+                      onBlur={formik.handleBlur}
+                      isTouched={formik.touched.productPrice}
+                      errorMsg={formik.errors.productPrice}
                     />
 
                     <div style={{ padding: '0 26px', marginTop: 40 }}>

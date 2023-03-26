@@ -1,13 +1,25 @@
 import React from 'react';
 
-const InputArea = ({ label, id, name, rows, placeholder, onChange, value, isValid, validMsg }) => {
-  const inputBorder = isValid ? '#dee2e6' : 'red';
+const InputArea = ({
+  label,
+  id,
+  name,
+  rows,
+  placeholder,
+  onChange,
+  value,
+  isTouched,
+  errorMsg,
+  ...props
+}) => {
+  const inputBorder = errorMsg && isTouched ? 'red' : '#dee2e6';
   return (
     <div id={`${id}-field`} className='mb-4'>
       <label htmlFor={id} className='form-label'>
         {label}
       </label>
       <textarea
+        {...props}
         style={{ borderColor: inputBorder }}
         className='form-control'
         id={id}
@@ -17,9 +29,7 @@ const InputArea = ({ label, id, name, rows, placeholder, onChange, value, isVali
         value={value}
         placeholder={placeholder}
       />
-      <div id={`${id}-feedback`} className={`text-danger ${isValid && 'd-none'}`}>
-        {validMsg}
-      </div>
+      {errorMsg && isTouched && <p className={`text-danger`}>{errorMsg}</p>}
     </div>
   );
 };

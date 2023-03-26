@@ -1,13 +1,14 @@
 import React from 'react';
 
-function Input({ label, type, id, name, onChange, value, isValid, validMsg }) {
-  const inputBorder = isValid ? '#dee2e6' : 'red';
+function Input({ label, type, id, name, onChange, value, isTouched, errorMsg, ...props }) {
+  const inputBorder = errorMsg && isTouched ? 'red' : '#dee2e6';
   return (
     <div id={`${id}-field`} className='mb-4'>
       <label htmlFor={id} className='form-label'>
         {label}
       </label>
       <input
+        {...props}
         style={{ width: 282, borderColor: inputBorder }}
         type={type}
         className='form-control'
@@ -16,9 +17,7 @@ function Input({ label, type, id, name, onChange, value, isValid, validMsg }) {
         onChange={onChange}
         value={value}
       />
-      <div id='product-name-feedback' className={`text-danger ${isValid && 'd-none'}`}>
-        {validMsg}
-      </div>
+      {errorMsg && isTouched && <p className={`text-danger`}>{errorMsg}</p>}
     </div>
   );
 }

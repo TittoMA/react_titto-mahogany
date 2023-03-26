@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InputRadio = ({ label, id, name, options, onChange, selectedValue }) => {
+const InputRadio = ({ label, id, name, options, onChange, selectedValue, errorMsg, isTouched, ...props }) => {
   return (
     <div id={`${id}-field`} className='mb-4'>
       <label className='mb-1'>{label}</label>
@@ -8,6 +8,7 @@ const InputRadio = ({ label, id, name, options, onChange, selectedValue }) => {
       {options.map((option, index) => (
         <div className='form-check' key={index}>
           <input
+            {...props}
             className='form-check-input'
             type='radio'
             name={name}
@@ -20,10 +21,8 @@ const InputRadio = ({ label, id, name, options, onChange, selectedValue }) => {
             {option.label}
           </label>
 
-          {index == options.length - 1 && (
-            <div id={`${id}-feedback`} className='text-danger d-none'>
-              Please fill out this field.
-            </div>
+          {index == options.length - 1 && errorMsg && isTouched && (
+            <p className={`text-danger`}>{errorMsg}</p>
           )}
         </div>
       ))}
