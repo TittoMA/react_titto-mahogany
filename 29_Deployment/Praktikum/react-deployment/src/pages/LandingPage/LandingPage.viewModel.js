@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_PRODUCTS_LIMIT } from '../../graphql/Query';
+import { GET_PRODUCTS_LIMIT } from '../../graphql/query';
 
 const useLandingPageViewModel = () => {
   const { loading, error, data } = useQuery(GET_PRODUCTS_LIMIT, { variables: { limit: 3 } });
